@@ -35,7 +35,9 @@ export const HeroSection = () => {
         delay={500}
       >
         <p className="text-xl text-blue-100 max-w-2xl mx-auto mb-12">
-          Transform your ideas into stunning digital experiences. Our creative team brings your vision to life with pixel-perfect precision and innovative design solutions.
+          Transform your ideas into stunning digital experiences. Our creative
+          team brings your vision to life with pixel-perfect precision and
+          innovative design solutions.
         </p>
       </ScrollAnimation>
 
