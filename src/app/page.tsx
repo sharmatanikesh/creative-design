@@ -50,7 +50,6 @@ const ScrollAnimation = ({
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          // Once visible, disconnect the observer
           if (elementRef.current) {
             observer.unobserve(elementRef.current);
           }
@@ -76,8 +75,10 @@ const ScrollAnimation = ({
   return (
     <div
       ref={elementRef}
-      className={`transition-all duration-1000 ${
-        isVisible ? animationClass : "opacity-0"
+      className={`transition-all duration-1000 transform ${
+        isVisible
+          ? `${animationClass} translate-y-0 opacity-100`
+          : "translate-y-10 opacity-0"
       }`}
       style={{
         transitionDelay: `${delay}ms`,
@@ -258,85 +259,27 @@ const FeatureCard = ({
   index = 0,
 }: FeatureCardProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
-  const iconRef = useRef<HTMLDivElement>(null);
-  const [isInView, setIsInView] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     createPixelEffect(cardRef.current);
   }, []);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsInView(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.2 }
-    );
-
-    if (cardRef.current) {
-      observer.observe(cardRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
-  const handleMouseEnter = () => {
-    if (cardRef.current) {
-      // Apply faster transition with cubic-bezier for a snappier feel
-      cardRef.current.style.transform = "scale(1.05)";
-      cardRef.current.style.boxShadow =
-        "0 0 20px rgba(139, 92, 246, 0.7), 0 0 30px rgba(56, 189, 248, 0.4)";
-      cardRef.current.style.borderColor = "#93c5fd"; // lighter blue for hover state
-    }
-
-    // Also animate the icon for a coordinated effect
-    if (iconRef.current) {
-      iconRef.current.style.transform = "scale(1.2) rotate(5deg)";
-    }
-  };
-
-  const handleMouseLeave = () => {
-    if (cardRef.current) {
-      cardRef.current.style.transform = "scale(1)";
-      cardRef.current.style.boxShadow = "0 0 10px rgba(111, 76, 255, 0.2)";
-      cardRef.current.style.borderColor = "#3b82f6"; // reset to original border color
-    }
-
-    if (iconRef.current) {
-      iconRef.current.style.transform = "scale(1) rotate(0deg)";
-    }
-  };
-
   return (
     <div
       ref={cardRef}
-      className="bg-opacity-20 bg-blue-900 backdrop-filter backdrop-blur-sm p-6 rounded-lg pixelated border-2 border-blue-500 pixel-in group"
+      className={`bg-opacity-20 bg-blue-900 backdrop-filter backdrop-blur-sm p-6 rounded-lg pixelated border-2 border-blue-500 
+        transform transition-all duration-500 hover:scale-105 hover:border-purple-500 hover:shadow-lg hover:shadow-purple-500/50
+        ${isHovered ? "rotate-3" : ""}`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       style={{
-        opacity: 0,
-        transform: `translateY(50px)`,
-        animation: isInView
-          ? `slideUp 800ms ease-out forwards ${index * 150}ms`
-          : "none",
-        boxShadow: "0 0 10px rgba(111, 76, 255, 0.2)",
-        transition:
-          "transform 0.3s cubic-bezier(0.17, 0.67, 0.83, 0.67), box-shadow 0.3s ease, border-color 0.3s ease",
-        willChange: "transform, box-shadow, border-color",
+        animation: `slideUp 800ms ease-out forwards ${index * 150}ms`,
+        boxShadow: "0 0 20px rgba(111, 76, 255, 0.3)",
       }}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
     >
       <div className="flex items-center mb-3">
-        <div
-          ref={iconRef}
-          className="text-4xl mr-3 text-purple-300"
-          style={{
-            transition: "transform 0.3s cubic-bezier(0.17, 0.67, 0.83, 0.67)",
-            willChange: "transform",
-          }}
-        >
+        <div className="text-4xl mr-3 text-purple-300 animate-pulse">
           {icon}
         </div>
         <h3 className="text-xl font-pixel text-white">{title}</h3>
@@ -405,6 +348,32 @@ const ParallaxText = ({
       {children}
     </div>
   );
+};
+
+// Add new animation components
+const GlowingText = ({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => {
+  return (
+    <div className={`relative ${className}`}>
+      <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 blur-xl opacity-30"></div>
+      <div className="relative">{children}</div>
+    </div>
+  );
+};
+
+const FloatingElement = ({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => {
+  return <div className={`animate-float ${className}`}>{children}</div>;
 };
 
 const IndexPage = () => {
@@ -496,7 +465,6 @@ const IndexPage = () => {
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-b from-black via-indigo-950 to-black overflow-hidden relative">
-      {/* CSS Animations */}
       <style jsx global>{`
         @import url("https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap");
         @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
@@ -549,10 +517,10 @@ const IndexPage = () => {
         @keyframes float {
           0%,
           100% {
-            transform: translateY(0);
+            transform: translateY(0) rotate(0deg);
           }
           50% {
-            transform: translateY(-20px) translateX(5px);
+            transform: translateY(-20px) rotate(5deg);
           }
         }
 
@@ -560,11 +528,9 @@ const IndexPage = () => {
           0%,
           100% {
             transform: scale(1);
-            filter: brightness(1);
           }
           50% {
             transform: scale(1.05);
-            filter: brightness(1.2);
           }
         }
 
@@ -799,65 +765,67 @@ const IndexPage = () => {
         .glow-pulse {
           animation: glow-pulse 2s infinite ease-in-out;
         }
+
+        @keyframes glow {
+          0%,
+          100% {
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+          }
+          50% {
+            box-shadow: 0 0 40px rgba(139, 92, 246, 0.8);
+          }
+        }
+
+        .animate-float {
+          animation: float 6s ease-in-out infinite;
+        }
+
+        .animate-glow {
+          animation: glow 3s ease-in-out infinite;
+        }
+
+        .animate-pulse {
+          animation: pulse 2s ease-in-out infinite;
+        }
       `}</style>
 
-      {/* Mouse Effect */}
+      {/* Enhanced Mouse Effect */}
       <MouseEffect />
 
-      {/* Background Stars */}
-      {showStars && renderStars()}
-
-      {/* Planets */}
-      {!loading && renderPlanets()}
-
-      {/* Orbiting Pixels */}
-      {!loading && (
-        <>
-          <div
-            className="absolute top-1/3 right-1/4 w-2 h-2 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full"
-            style={{
-              animation: "orbit 15s linear infinite",
-              transformOrigin: `${15 + scrollY * 0.01}px ${
-                -10 + scrollY * 0.005
-              }px`,
-            }}
-          />
-          <div
-            className="absolute top-2/3 left-1/4 w-3 h-3 bg-gradient-to-r from-rose-500 to-pink-500 rounded-full"
-            style={{
-              animation: "orbit 20s linear infinite reverse",
-              transformOrigin: `${-20 + scrollY * 0.015}px ${
-                10 + scrollY * 0.01
-              }px`,
-            }}
-          />
-          <div
-            className="absolute top-1/2 left-1/2 w-2 h-2 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full"
-            style={{
-              animation: "orbit 10s linear infinite",
-              transformOrigin: `${5 - scrollY * 0.008}px ${
-                -5 - scrollY * 0.003
-              }px`,
-            }}
-          />
-        </>
+      {/* Enhanced Background Elements */}
+      {showStars && (
+        <div className="fixed inset-0 overflow-hidden">
+          {renderStars()}
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-indigo-900/20 to-transparent"></div>
+        </div>
       )}
 
-      {/* Scanline effect */}
+      {/* Enhanced Planets with new animations */}
+      {!loading && (
+        <div className="fixed inset-0 pointer-events-none">
+          {renderPlanets()}
+          <div className="absolute top-1/3 right-1/4 w-4 h-4 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full animate-glow"></div>
+          <div className="absolute top-2/3 left-1/4 w-3 h-3 bg-gradient-to-r from-rose-500 to-pink-500 rounded-full animate-pulse"></div>
+        </div>
+      )}
+
+      {/* Enhanced Scanline effect */}
       <div className="scanline"></div>
 
-      {/* Loading Screen */}
+      {/* Enhanced Loading Screen */}
       {loading ? (
         <LoadingScreen />
       ) : (
-        <>
+        <div className="relative z-10">
           <Header scrollY={scrollY} />
-          <HeroSection />
-          <FeaturesPage />
-          <GalleryPage />
-          <ContactSection />
+          <main className="space-y-32">
+            <HeroSection />
+            <FeaturesPage />
+            <GalleryPage />
+            <ContactSection />
+          </main>
           <Footer />
-        </>
+        </div>
       )}
     </div>
   );

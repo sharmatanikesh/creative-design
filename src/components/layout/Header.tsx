@@ -43,7 +43,7 @@ export const Header = ({ scrollY }: HeaderProps) => {
           </svg>
         </div>
         <h1 className="text-2xl font-pixel text-white">
-          <span className="text-purple-400">ByteSketch</span> 
+          <span className="text-purple-400">ByteSketch</span>
         </h1>
       </div>
 

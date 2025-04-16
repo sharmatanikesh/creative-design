@@ -24,7 +24,7 @@ export const LoadingScreen = () => {
           </svg>
         </div>
         <h1 className="text-4xl font-pixel text-white animate-pulse">
-          <span className="text-purple-400">PIXEL</span> SPACE
+          <span className="text-purple-400">ByteSketch</span>
         </h1>
       </div>
       <div className="w-64 h-3 bg-gray-800 rounded overflow-hidden pixelated">
