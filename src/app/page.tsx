@@ -13,26 +13,16 @@ import { GalleryPage } from "../components/sections/GalleryPage";
 import { ContactSection } from "../components/sections/ContactSection";
 import { MouseEffect } from "../components/utils/MouseEffect";
 
-const schema = {
-  commentary: "",
-  template: "nextjs-developer",
-  title: "ByteSketch",
-  description:
-    "An animated, space-themed landing page with pixelated elements and creative transitions.",
-  additional_dependencies: [],
-  has_additional_dependencies: false,
-  install_dependencies_command: "",
-  port: 3000,
-  file_path: "pages/index.tsx",
-};
+// Remove unused schema
+// const schema = { ... };
 
-// ScrollAnimation component to trigger animations on scroll
+// Enhanced ScrollAnimation component
 interface ScrollAnimationProps {
   children: React.ReactNode;
-  animationClass: string; // CSS class to apply when visible
+  animationClass: string;
   delay?: number;
-  threshold?: number; // Visibility threshold (0-1)
-  rootMargin?: string; // Margin around the root
+  threshold?: number;
+  rootMargin?: string;
 }
 
 const ScrollAnimation = ({
@@ -46,13 +36,14 @@ const ScrollAnimation = ({
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    const currentRef = elementRef.current;
+    if (!currentRef) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          if (elementRef.current) {
-            observer.unobserve(elementRef.current);
-          }
+          observer.unobserve(currentRef);
         }
       },
       {
@@ -61,14 +52,10 @@ const ScrollAnimation = ({
       }
     );
 
-    if (elementRef.current) {
-      observer.observe(elementRef.current);
-    }
+    observer.observe(currentRef);
 
     return () => {
-      if (elementRef.current) {
-        observer.unobserve(elementRef.current);
-      }
+      observer.unobserve(currentRef);
     };
   }, [threshold, rootMargin]);
 
@@ -89,166 +76,11 @@ const ScrollAnimation = ({
   );
 };
 
-// Pixel Button component
-interface PixelButtonProps {
-  text: string;
-  onClick?: () => void;
-  className?: string;
-}
-
-const PixelButton = ({ text, onClick, className = "" }: PixelButtonProps) => {
-  const buttonRef = useRef(null);
-
-  useEffect(() => {
-    createPixelEffect(buttonRef.current);
-  }, []);
-
-  return (
-    <button
-      ref={buttonRef}
-      onClick={onClick}
-      className={`px-6 py-3 border-4 border-indigo-700 bg-indigo-600 hover:bg-indigo-500 
-      text-white font-pixel uppercase tracking-wider transform hover:scale-105 
-      transition-all duration-300 pixelated ${className}`}
-      style={{ clipPath: "polygon(0 0, 100% 0, 100% 70%, 90% 100%, 0 100%)" }}
-    >
-      {text}
-    </button>
-  );
-};
-
-// Navigation Item
-interface NavItemProps {
-  text: string;
-  delay?: number;
-  index: number;
-}
-
-const NavItem = ({ text, index }: NavItemProps) => {
-  const itemRef = useRef(null);
-  const animationDelay = index * 200; // Deterministic delay
-
-  useEffect(() => {
-    createPixelEffect(itemRef.current);
-  }, []);
-
-  return (
-    <li
-      ref={itemRef}
-      className="relative cursor-pointer font-pixel text-lg text-white hover:text-purple-300 transition-all duration-300"
-      style={{
-        animation: `slideDown 600ms ease-out forwards`,
-        animationDelay: `${animationDelay}ms`,
-        opacity: 0,
-      }}
-    >
-      <span className="hover:border-b-2 hover:border-purple-400 pb-1">
-        {text}
-      </span>
-    </li>
-  );
-};
-
-// Countdown component
-const Countdown = () => {
-  // Start with zeros for consistent server rendering
-  const [time, setTime] = useState({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
-  });
-
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    // Update with actual starting values after client-side hydration
-    setTime({
-      days: 7,
-      hours: 12,
-      minutes: 45,
-      seconds: 30,
-    });
-    setIsClient(true);
-  }, []);
-
-  useEffect(() => {
-    if (!isClient) return; // Only run timer on client side
-
-    const timer = setInterval(() => {
-      // Simple countdown logic (same as before)
-      setTime((prevTime) => {
-        const newTime = { ...prevTime };
-
-        newTime.seconds -= 1;
-        if (newTime.seconds < 0) {
-          newTime.seconds = 59;
-          newTime.minutes -= 1;
-
-          if (newTime.minutes < 0) {
-            newTime.minutes = 59;
-            newTime.hours -= 1;
-
-            if (newTime.hours < 0) {
-              newTime.hours = 23;
-              newTime.days -= 1;
-            }
-          }
-        }
-
-        return newTime;
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [isClient]); // Only run when isClient changes (after hydration)
-
-  return (
-    <div className="flex justify-center gap-6">
-      {Object.entries(time).map(([unit, value]) => (
-        <div key={unit} className="bg-black bg-opacity-50 p-4 pixelated">
-          <div className="text-2xl font-pixel text-yellow-300">
-            {String(value).padStart(2, "0")}
-          </div>
-          <div className="text-xs text-gray-300">{unit.toUpperCase()}</div>
-        </div>
-      ))}
-    </div>
-  );
-};
-
-// Content Section
-interface ContentSectionProps {
-  children: React.ReactNode;
-  delay?: number;
-  className?: string;
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const ContentSection = ({
-  children,
-  delay = 0,
-  className = "",
-}: ContentSectionProps) => {
-  return (
-    <div
-      className={`${className} opacity-0`}
-      style={{
-        animation: `fadeIn 800ms ease-out forwards`,
-        animationDelay: `${delay}ms`,
-      }}
-    >
-      {children}
-    </div>
-  );
-};
-
-// Feature Card
+// Enhanced Feature Card
 interface FeatureCardProps {
   title: string;
   description: string;
   icon: string;
-  delay?: number;
   index?: number;
 }
 
@@ -262,7 +94,9 @@ const FeatureCard = ({
   const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
-    createPixelEffect(cardRef.current);
+    if (cardRef.current) {
+      createPixelEffect(cardRef.current);
+    }
   }, []);
 
   return (
@@ -285,67 +119,6 @@ const FeatureCard = ({
         <h3 className="text-xl font-pixel text-white">{title}</h3>
       </div>
       <p className="text-blue-100 font-light">{description}</p>
-    </div>
-  );
-};
-
-// Parallax Text component for scroll-based text effects
-interface ParallaxTextProps {
-  children: React.ReactNode;
-  baseSpeed?: number;
-  direction?: "left" | "right" | "up" | "down";
-  className?: string;
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const ParallaxText = ({
-  children,
-  baseSpeed = 0.1,
-  direction = "left",
-  className = "",
-}: ParallaxTextProps) => {
-  const textRef = useRef<HTMLDivElement>(null);
-  const [offset, setOffset] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!textRef.current) return;
-      const scrollPosition = window.scrollY;
-      const elementPosition = textRef.current.offsetTop;
-      const relativePosition = scrollPosition - elementPosition;
-      setOffset(relativePosition * baseSpeed);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [baseSpeed]);
-
-  // Calculate transform based on direction
-  const getTransform = () => {
-    switch (direction) {
-      case "left":
-        return `translateX(${-offset}px)`;
-      case "right":
-        return `translateX(${offset}px)`;
-      case "up":
-        return `translateY(${-offset}px)`;
-      case "down":
-        return `translateY(${offset}px)`;
-      default:
-        return `translateX(${-offset}px)`;
-    }
-  };
-
-  return (
-    <div
-      ref={textRef}
-      className={`transition-transform ${className}`}
-      style={{
-        transform: getTransform(),
-        willChange: "transform",
-      }}
-    >
-      {children}
     </div>
   );
 };
@@ -380,7 +153,6 @@ const IndexPage = () => {
   const [loading, setLoading] = useState(true);
   const [showStars] = useState(true);
   const [scrollY, setScrollY] = useState(0);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -789,10 +561,8 @@ const IndexPage = () => {
         }
       `}</style>
 
-      {/* Enhanced Mouse Effect */}
       <MouseEffect />
 
-      {/* Enhanced Background Elements */}
       {showStars && (
         <div className="fixed inset-0 overflow-hidden">
           {renderStars()}
@@ -800,7 +570,6 @@ const IndexPage = () => {
         </div>
       )}
 
-      {/* Enhanced Planets with new animations */}
       {!loading && (
         <div className="fixed inset-0 pointer-events-none">
           {renderPlanets()}
@@ -809,10 +578,8 @@ const IndexPage = () => {
         </div>
       )}
 
-      {/* Enhanced Scanline effect */}
       <div className="scanline"></div>
 
-      {/* Enhanced Loading Screen */}
       {loading ? (
         <LoadingScreen />
       ) : (
