@@ -1,6 +1,6 @@
 import { ScrollAnimation } from "../utils/ScrollAnimation";
 import { Star } from "../space/Star";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface Feature {
   title: string;
@@ -62,7 +62,15 @@ const features: Feature[] = [
 ];
 
 export const FeaturesPage = () => {
-  const [activeFeature, setActiveFeature] = useState<number | null>(null);
+  const [activeFeature, setActiveFeature] = useState<number>(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveFeature((prev) => (prev + 1) % features.length);
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <section
@@ -97,8 +105,6 @@ export const FeaturesPage = () => {
             >
               <div
                 className={`relative group cursor-pointer transform transition-all duration-300 hover:scale-105`}
-                onMouseEnter={() => setActiveFeature(index)}
-                onMouseLeave={() => setActiveFeature(null)}
               >
                 <div
                   className={`absolute inset-0 ${feature.color} opacity-20 rounded-lg transform transition-all duration-300 group-hover:opacity-30`}
@@ -125,57 +131,55 @@ export const FeaturesPage = () => {
         </div>
 
         {/* Feature Details Section */}
-        {activeFeature !== null && (
-          <ScrollAnimation
-            animationClass="anim-fade-in"
-            threshold={0.2}
-            delay={0}
-          >
-            <div className="mt-16 bg-opacity-30 bg-blue-900 backdrop-filter backdrop-blur-sm p-8 rounded-lg pixelated border-2 border-blue-500">
-              <h3 className="text-3xl font-pixel text-white mb-6">
-                <span
-                  className={features[activeFeature].color.replace(
-                    "bg-",
-                    "text-"
-                  )}
+        <ScrollAnimation
+          animationClass="anim-fade-in"
+          threshold={0.2}
+          delay={0}
+        >
+          <div className="mt-16 bg-opacity-30 bg-blue-900 backdrop-filter backdrop-blur-sm p-8 rounded-lg pixelated border-2 border-blue-500">
+            <h3 className="text-3xl font-pixel text-white mb-6">
+              <span
+                className={features[activeFeature].color.replace(
+                  "bg-",
+                  "text-"
+                )}
+              >
+                {features[activeFeature].title}
+              </span>
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div>
+                <p className="text-blue-100 mb-6">
+                  {features[activeFeature].description}
+                </p>
+                <ul className="space-y-3">
+                  {[
+                    "Custom Solutions",
+                    "Expert Team",
+                    "Latest Technology",
+                    "24/7 Support",
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-center text-blue-100">
+                      <span
+                        className={`w-2 h-2 ${features[activeFeature].color} rounded-full mr-3`}
+                      />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="flex items-center justify-center">
+                <div
+                  className={`w-32 h-32 ${features[activeFeature].color} rounded-full flex items-center justify-center transform transition-all duration-300 hover:scale-110`}
                 >
-                  {features[activeFeature].title}
-                </span>
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                  <p className="text-blue-100 mb-6">
-                    {features[activeFeature].description}
-                  </p>
-                  <ul className="space-y-3">
-                    {[
-                      "Custom Solutions",
-                      "Expert Team",
-                      "Latest Technology",
-                      "24/7 Support",
-                    ].map((item, i) => (
-                      <li key={i} className="flex items-center text-blue-100">
-                        <span
-                          className={`w-2 h-2 ${features[activeFeature].color} rounded-full mr-3`}
-                        />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="flex items-center justify-center">
-                  <div
-                    className={`w-32 h-32 ${features[activeFeature].color} rounded-full flex items-center justify-center transform transition-all duration-300 hover:scale-110`}
-                  >
-                    <span className="text-6xl">
-                      {features[activeFeature].icon}
-                    </span>
-                  </div>
+                  <span className="text-6xl">
+                    {features[activeFeature].icon}
+                  </span>
                 </div>
               </div>
             </div>
-          </ScrollAnimation>
-        )}
+          </div>
+        </ScrollAnimation>
       </div>
     </section>
   );
