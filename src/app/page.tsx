@@ -8,8 +8,8 @@ import { Header } from "../components/layout/Header";
 import { Footer } from "../components/layout/Footer";
 import { LoadingScreen } from "../components/layout/LoadingScreen";
 import { HeroSection } from "../components/sections/HeroSection";
-import { FeaturesSection } from "../components/sections/FeaturesSection";
-import { CTASection } from "../components/sections/CTASection";
+import { FeaturesPage } from "../components/sections/FeaturesPage";
+import { GalleryPage } from "../components/sections/GalleryPage";
 import { ContactSection } from "../components/sections/ContactSection";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -807,8 +807,8 @@ const IndexPage = () => {
         <>
           <Header scrollY={scrollY} />
           <HeroSection />
-          <FeaturesSection />
-          <CTASection />
+          <FeaturesPage />
+          <GalleryPage />
           <ContactSection />
           <Footer />
         </>
