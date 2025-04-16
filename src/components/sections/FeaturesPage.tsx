@@ -12,7 +12,7 @@ interface Feature {
 
 const features: Feature[] = [
   {
-    title: "Web Design",
+    title: "Web Design & Development",
     description:
       "Create stunning, responsive websites that captivate your audience and drive engagement.",
     icon: "🌐",
@@ -65,7 +65,10 @@ export const FeaturesPage = () => {
   const [activeFeature, setActiveFeature] = useState<number | null>(null);
 
   return (
-    <section className="min-h-screen py-20 px-4 relative overflow-hidden">
+    <section
+      id="features"
+      className="min-h-screen py-20 px-4 relative overflow-hidden"
+    >
       {/* Background Stars */}
       {[...Array(50)].map((_, i) => (
         <Star key={i} index={i} parallax />
@@ -84,7 +87,7 @@ export const FeaturesPage = () => {
           </div>
         </ScrollAnimation>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 ">
           {features.map((feature, index) => (
             <ScrollAnimation
               key={index}

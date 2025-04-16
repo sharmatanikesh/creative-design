@@ -1,12 +1,21 @@
 import { ScrollAnimation } from "../utils/ScrollAnimation";
 import { Star } from "../space/Star";
 import { useState } from "react";
+import {
+  Rocket,
+  Layout,
+  Palette,
+  Sparkles,
+  Globe,
+  BookOpen,
+  type LucideIcon,
+} from "lucide-react";
 
 interface GalleryItem {
   id: number;
   title: string;
   category: string;
-  image: string;
+  icon: LucideIcon;
   description: string;
 }
 
@@ -15,7 +24,7 @@ const galleryItems: GalleryItem[] = [
     id: 1,
     title: "Space Explorer",
     category: "Web Design",
-    image: "https://source.unsplash.com/random/800x600/?space,galaxy",
+    icon: Rocket,
     description:
       "A stunning space exploration website with interactive elements.",
   },
@@ -23,35 +32,35 @@ const galleryItems: GalleryItem[] = [
     id: 2,
     title: "Galaxy UI Kit",
     category: "UI/UX Design",
-    image: "https://source.unsplash.com/random/800x600/?universe,stars",
+    icon: Layout,
     description: "Modern UI components inspired by the cosmos.",
   },
   {
     id: 3,
     title: "Stellar Branding",
     category: "Brand Identity",
-    image: "https://source.unsplash.com/random/800x600/?nebula,cosmos",
+    icon: Palette,
     description: "Complete brand identity for a space technology company.",
   },
   {
     id: 4,
     title: "Cosmic Animation",
     category: "Motion Graphics",
-    image: "https://source.unsplash.com/random/800x600/?astronomy,night-sky",
+    icon: Sparkles,
     description: "Animated space exploration sequence.",
   },
   {
     id: 5,
     title: "Planet Marketing",
     category: "Digital Marketing",
-    image: "https://source.unsplash.com/random/800x600/?planet,space",
+    icon: Globe,
     description: "Digital marketing campaign for space tourism.",
   },
   {
     id: 6,
     title: "Space Content",
     category: "Content Creation",
-    image: "https://source.unsplash.com/random/800x600/?stars,universe",
+    icon: BookOpen,
     description: "Educational content about space exploration.",
   },
 ];
@@ -76,7 +85,10 @@ export const GalleryPage = () => {
       : galleryItems.filter((item) => item.category === selectedCategory);
 
   return (
-    <section className="min-h-screen py-20 px-4 relative overflow-hidden">
+    <section
+      id="gallery"
+      className="min-h-screen py-20 px-4 relative overflow-hidden"
+    >
       {/* Background Stars */}
       {[...Array(50)].map((_, i) => (
         <Star key={i} index={i} parallax />
@@ -135,14 +147,10 @@ export const GalleryPage = () => {
                 className="group cursor-pointer"
                 onClick={() => setSelectedItem(item)}
               >
-                <div className="relative overflow-hidden rounded-lg pixelated border-2 border-blue-500">
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="w-full h-64 object-cover transform transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="absolute bottom-0 left-0 right-0 p-6">
+                <div className="relative overflow-hidden rounded-lg pixelated border-2 border-blue-500 bg-blue-900 bg-opacity-30 p-8">
+                  <div className="flex flex-col items-center justify-center h-64">
+                    <item.icon className="w-24 h-24 text-purple-400 group-hover:text-purple-300 transition-colors duration-300" />
+                    <div className="mt-6 text-center">
                       <h3 className="text-xl font-pixel text-white mb-2">
                         {item.title}
                       </h3>
@@ -160,12 +168,8 @@ export const GalleryPage = () => {
           <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50">
             <div className="bg-opacity-30 bg-blue-900 backdrop-filter backdrop-blur-sm p-8 rounded-lg pixelated border-2 border-blue-500 max-w-4xl w-full">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="relative">
-                  <img
-                    src={selectedItem.image}
-                    alt={selectedItem.title}
-                    className="w-full h-64 md:h-full object-cover rounded-lg"
-                  />
+                <div className="relative flex items-center justify-center bg-blue-900 bg-opacity-30 p-8 rounded-lg">
+                  <selectedItem.icon className="w-32 h-32 text-purple-400" />
                 </div>
                 <div>
                   <h3 className="text-3xl font-pixel text-white mb-4">

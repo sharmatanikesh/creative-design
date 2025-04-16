@@ -23,7 +23,10 @@ export const ContactSection = () => {
   };
 
   return (
-    <section className="min-h-screen py-20 px-4 relative overflow-hidden">
+    <section
+      id="contact"
+      className="min-h-screen py-20 px-4 relative overflow-hidden"
+    >
       {/* Background Stars */}
       {[...Array(50)].map((_, i) => (
         <Star key={i} index={i} parallax />

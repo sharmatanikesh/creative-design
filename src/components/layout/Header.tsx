@@ -49,10 +49,10 @@ export const Header = ({ scrollY }: HeaderProps) => {
 
       <nav>
         <ul className="flex space-x-8">
-          <NavItem text="Home" index={0} />
-          <NavItem text="Features" index={1} />
-          <NavItem text="Gallery" index={2} />
-          <NavItem text="Contact" index={3} />
+          <NavItem text="Home" index={0} href="/" />
+          <NavItem text="Features" index={1} href="#features" />
+          <NavItem text="Gallery" index={2} href="#gallery" />
+          <NavItem text="Contact" index={3} href="#contact" />
         </ul>
       </nav>
     </header>
