@@ -985,7 +985,7 @@ const IndexPage = () => {
 
               <div className="text-center md:text-right">
                 <p className="text-blue-300 text-sm">
-                  © 2025 Pixel Space. All rights reserved.
+                  © 2025 ByteSketch. All rights reserved.
                 </p>
                 <p className="text-blue-400 text-xs mt-2">
                   Designed for space explorers and pixel enthusiasts

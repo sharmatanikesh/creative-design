@@ -12,12 +12,10 @@ import { FeaturesPage } from "../components/sections/FeaturesPage";
 import { GalleryPage } from "../components/sections/GalleryPage";
 import { ContactSection } from "../components/sections/ContactSection";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const schema = {
-  commentary:
-    "To create an animated, space-themed landing page with pixelated elements and creative transitions, we'll use a combination of CSS animations, React state, and Tailwind classes. We'll start with a basic layout and then add animations and transitions to each element.",
+  commentary: "",
   template: "nextjs-developer",
-  title: "Space Landing",
+  title: "ByteSketch",
   description:
     "An animated, space-themed landing page with pixelated elements and creative transitions.",
   additional_dependencies: [],
