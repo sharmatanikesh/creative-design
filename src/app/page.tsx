@@ -11,6 +11,7 @@ import { HeroSection } from "../components/sections/HeroSection";
 import { FeaturesPage } from "../components/sections/FeaturesPage";
 import { GalleryPage } from "../components/sections/GalleryPage";
 import { ContactSection } from "../components/sections/ContactSection";
+import { MouseEffect } from "../components/utils/MouseEffect";
 
 const schema = {
   commentary: "",
@@ -410,6 +411,7 @@ const IndexPage = () => {
   const [loading, setLoading] = useState(true);
   const [showStars] = useState(true);
   const [scrollY, setScrollY] = useState(0);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -457,7 +459,7 @@ const IndexPage = () => {
     return (
       <>
         <Planet
-          color="bg-purple-500"
+          color="bg-gradient-to-r from-cyan-500 to-blue-500"
           size={60}
           topPos={20}
           leftPos={15}
@@ -465,7 +467,7 @@ const IndexPage = () => {
           parallaxFactor={0.05}
         />
         <Planet
-          color="bg-red-400"
+          color="bg-gradient-to-r from-rose-500 to-pink-500"
           size={30}
           topPos={70}
           leftPos={80}
@@ -473,7 +475,7 @@ const IndexPage = () => {
           parallaxFactor={0.08}
         />
         <Planet
-          color="bg-yellow-300"
+          color="bg-gradient-to-r from-amber-500 to-yellow-500"
           size={40}
           topPos={60}
           leftPos={20}
@@ -481,7 +483,7 @@ const IndexPage = () => {
           parallaxFactor={0.03}
         />
         <Planet
-          color="bg-green-400"
+          color="bg-gradient-to-r from-emerald-500 to-teal-500"
           size={25}
           topPos={30}
           leftPos={75}
@@ -493,7 +495,7 @@ const IndexPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-b from-black via-blue-900 to-purple-900 overflow-hidden relative">
+    <div className="min-h-screen w-full bg-gradient-to-b from-black via-indigo-950 to-black overflow-hidden relative">
       {/* CSS Animations */}
       <style jsx global>{`
         @import url("https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap");
@@ -513,9 +515,7 @@ const IndexPage = () => {
           margin: 0;
           font-family: "Space Mono", monospace;
           overflow-x: hidden;
-          cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><rect x='13' y='8' width='2' height='2' fill='%23a855f7'/><rect x='15' y='8' width='2' height='2' fill='%23a855f7'/><rect x='17' y='8' width='2' height='2' fill='%23a855f7'/><rect x='11' y='10' width='2' height='2' fill='%23a855f7'/><rect x='13' y='10' width='2' height='2' fill='%23ffffff'/><rect x='15' y='10' width='2' height='2' fill='%23ffffff'/><rect x='17' y='10' width='2' height='2' fill='%23ffffff'/><rect x='19' y='10' width='2' height='2' fill='%23a855f7'/><rect x='11' y='12' width='2' height='2' fill='%23a855f7'/><rect x='13' y='12' width='2' height='2' fill='%23ffffff'/><rect x='15' y='12' width='2' height='2' fill='%23a855f7'/><rect x='17' y='12' width='2' height='2' fill='%23ffffff'/><rect x='19' y='12' width='2' height='2' fill='%23a855f7'/><rect x='11' y='14' width='2' height='2' fill='%23a855f7'/><rect x='13' y='14' width='2' height='2' fill='%23ffffff'/><rect x='15' y='14' width='2' height='2' fill='%23ffffff'/><rect x='17' y='14' width='2' height='2' fill='%23ffffff'/><rect x='19' y='14' width='2' height='2' fill='%23a855f7'/><rect x='9' y='16' width='2' height='2' fill='%23a855f7'/><rect x='11' y='16' width='2' height='2' fill='%23a855f7'/><rect x='13' y='16' width='2' height='2' fill='%23a855f7'/><rect x='15' y='16' width='2' height='2' fill='%23a855f7'/><rect x='17' y='16' width='2' height='2' fill='%23a855f7'/><rect x='19' y='16' width='2' height='2' fill='%23a855f7'/><rect x='21' y='16' width='2' height='2' fill='%23a855f7'/><rect x='13' y='18' width='2' height='2' fill='%23a855f7'/><rect x='17' y='18' width='2' height='2' fill='%23a855f7'/><rect x='11' y='20' width='2' height='2' fill='%23a855f7'/><rect x='13' y='20' width='2' height='2' fill='%23a855f7'/><rect x='15' y='20' width='2' height='2' fill='%23a855f7'/><rect x='17' y='20' width='2' height='2' fill='%23a855f7'/><rect x='19' y='20' width='2' height='2' fill='%23a855f7'/></svg>")
-              16 16,
-            auto;
+          cursor: none;
         }
 
         .font-pixel {
@@ -754,7 +754,55 @@ const IndexPage = () => {
         .pixel-in {
           animation: pixelate-in 0.8s forwards;
         }
+
+        /* New animations */
+        @keyframes float-rotate {
+          0%,
+          100% {
+            transform: translateY(0) rotate(0deg);
+          }
+          50% {
+            transform: translateY(-20px) rotate(5deg);
+          }
+        }
+
+        @keyframes shimmer {
+          0% {
+            background-position: -1000px 0;
+          }
+          100% {
+            background-position: 1000px 0;
+          }
+        }
+
+        .shimmer {
+          background: linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.1) 50%,
+            rgba(255, 255, 255, 0) 100%
+          );
+          background-size: 1000px 100%;
+          animation: shimmer 2s infinite linear;
+        }
+
+        @keyframes glow-pulse {
+          0%,
+          100% {
+            filter: drop-shadow(0 0 5px rgba(56, 189, 248, 0.5));
+          }
+          50% {
+            filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.8));
+          }
+        }
+
+        .glow-pulse {
+          animation: glow-pulse 2s infinite ease-in-out;
+        }
       `}</style>
+
+      {/* Mouse Effect */}
+      <MouseEffect />
 
       {/* Background Stars */}
       {showStars && renderStars()}
@@ -766,7 +814,7 @@ const IndexPage = () => {
       {!loading && (
         <>
           <div
-            className="absolute top-1/3 right-1/4 w-2 h-2 bg-purple-500 rounded-full"
+            className="absolute top-1/3 right-1/4 w-2 h-2 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full"
             style={{
               animation: "orbit 15s linear infinite",
               transformOrigin: `${15 + scrollY * 0.01}px ${
@@ -775,7 +823,7 @@ const IndexPage = () => {
             }}
           />
           <div
-            className="absolute top-2/3 left-1/4 w-3 h-3 bg-blue-400 rounded-full"
+            className="absolute top-2/3 left-1/4 w-3 h-3 bg-gradient-to-r from-rose-500 to-pink-500 rounded-full"
             style={{
               animation: "orbit 20s linear infinite reverse",
               transformOrigin: `${-20 + scrollY * 0.015}px ${
@@ -784,7 +832,7 @@ const IndexPage = () => {
             }}
           />
           <div
-            className="absolute top-1/2 left-1/2 w-2 h-2 bg-green-400 rounded-full"
+            className="absolute top-1/2 left-1/2 w-2 h-2 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full"
             style={{
               animation: "orbit 10s linear infinite",
               transformOrigin: `${5 - scrollY * 0.008}px ${
