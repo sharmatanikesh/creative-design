@@ -77,7 +77,6 @@ export const FeaturesPage = () => {
       id="features"
       className="min-h-screen py-20 px-4 relative overflow-hidden"
     >
-      {/* Background Stars */}
       {[...Array(50)].map((_, i) => (
         <Star key={i} index={i} parallax />
       ))}
@@ -130,7 +129,6 @@ export const FeaturesPage = () => {
           ))}
         </div>
 
-        {/* Feature Details Section */}
         <ScrollAnimation
           animationClass="anim-fade-in"
           threshold={0.2}

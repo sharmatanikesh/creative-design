@@ -9,7 +9,7 @@ export const MouseEffect = () => {
       setPosition({ x: e.clientX, y: e.clientY });
       setTrail((prev) => {
         const newTrail = [...prev, { x: e.clientX, y: e.clientY }];
-        return newTrail.slice(-10); // Keep only the last 10 positions
+        return newTrail.slice(-10); 
       });
     };
 
@@ -19,7 +19,6 @@ export const MouseEffect = () => {
 
   return (
     <>
-      {/* Main cursor */}
       <div
         className="fixed w-4 h-4 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full pointer-events-none z-50 mix-blend-difference"
         style={{
@@ -28,7 +27,6 @@ export const MouseEffect = () => {
         }}
       />
 
-      {/* Trail effect */}
       {trail.map((pos, index) => (
         <div
           key={index}
@@ -41,7 +39,6 @@ export const MouseEffect = () => {
         />
       ))}
 
-      {/* Glow effect */}
       <div
         className="fixed w-32 h-32 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-full pointer-events-none z-30 blur-xl"
         style={{

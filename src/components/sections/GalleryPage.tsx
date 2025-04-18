@@ -107,7 +107,6 @@ export const GalleryPage = () => {
           </div>
         </ScrollAnimation>
 
-        {/* Category Filter */}
         <ScrollAnimation
           animationClass="anim-slide-up"
           threshold={0.2}
@@ -134,7 +133,6 @@ export const GalleryPage = () => {
           </div>
         </ScrollAnimation>
 
-        {/* Gallery Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredItems.map((item, index) => (
             <ScrollAnimation
@@ -163,7 +161,6 @@ export const GalleryPage = () => {
           ))}
         </div>
 
-        {/* Modal for Selected Item */}
         {selectedItem && (
           <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50">
             <div className="bg-opacity-30 bg-blue-900 backdrop-filter backdrop-blur-sm p-8 rounded-lg pixelated border-2 border-blue-500 max-w-4xl w-full">

@@ -11,7 +11,6 @@ export const ContactSection = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
     console.log("Form submitted:", formData);
   };
 
@@ -27,7 +26,6 @@ export const ContactSection = () => {
       id="contact"
       className="min-h-screen py-20 px-4 relative overflow-hidden"
     >
-      {/* Background Stars */}
       {[...Array(50)].map((_, i) => (
         <Star key={i} index={i} parallax />
       ))}
@@ -46,7 +44,6 @@ export const ContactSection = () => {
         </ScrollAnimation>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Contact Form */}
           <ScrollAnimation
             animationClass="anim-slide-right"
             threshold={0.2}
@@ -118,7 +115,6 @@ export const ContactSection = () => {
             </div>
           </ScrollAnimation>
 
-          {/* Contact Info */}
           <ScrollAnimation
             animationClass="anim-slide-left"
             threshold={0.2}
@@ -148,7 +144,7 @@ export const ContactSection = () => {
                     </div>
                     <div>
                       <p className="text-blue-100 font-pixel">Email</p>
-                      <p className="text-white">contact@pixelspace.com</p>
+                      <p className="text-white">contact@byteSketch.com</p>
                     </div>
                   </div>
 
@@ -206,7 +202,6 @@ export const ContactSection = () => {
                 </div>
               </div>
 
-              {/* Social Media Links */}
               <div className="bg-opacity-30 bg-blue-900 backdrop-filter backdrop-blur-sm p-8 rounded-lg pixelated border-2 border-blue-500">
                 <h3 className="text-2xl font-pixel text-white mb-6">
                   <span className="text-yellow-300">FOLLOW</span> US
