@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { createPixelEffect } from "../components/utils/PixelEffect";
+import { applyPixelEffect } from "../components/utils/PixelEffect";
 import { Star } from "../components/space/Star";
 import { Planet } from "../components/space/Planet";
 import { Header } from "../components/layout/Header";
@@ -12,7 +12,6 @@ import { FeaturesPage } from "../components/sections/FeaturesPage";
 import { GalleryPage } from "../components/sections/GalleryPage";
 import { ContactSection } from "../components/sections/ContactSection";
 import { MouseEffect } from "../components/utils/MouseEffect";
-
 
 const IndexPage = () => {
   const [loading, setLoading] = useState(true);
@@ -42,7 +41,7 @@ const IndexPage = () => {
     if (!loading) {
       const pixelTimer = setTimeout(() => {
         document.querySelectorAll(".pixelated").forEach((el) => {
-          createPixelEffect(el as HTMLElement);
+          applyPixelEffect(el as HTMLElement);
         });
       }, 100);
 

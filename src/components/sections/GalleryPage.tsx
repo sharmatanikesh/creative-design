@@ -12,7 +12,6 @@ import {
 } from "lucide-react";
 
 interface GalleryItem {
-  id: number;
   title: string;
   category: string;
   icon: LucideIcon;
@@ -21,7 +20,6 @@ interface GalleryItem {
 
 const galleryItems: GalleryItem[] = [
   {
-    id: 1,
     title: "Space Explorer",
     category: "Web Design",
     icon: Rocket,
@@ -29,35 +27,30 @@ const galleryItems: GalleryItem[] = [
       "A stunning space exploration website with interactive elements.",
   },
   {
-    id: 2,
     title: "Galaxy UI Kit",
     category: "UI/UX Design",
     icon: Layout,
     description: "Modern UI components inspired by the cosmos.",
   },
   {
-    id: 3,
     title: "Stellar Branding",
     category: "Brand Identity",
     icon: Palette,
     description: "Complete brand identity for a space technology company.",
   },
   {
-    id: 4,
     title: "Cosmic Animation",
     category: "Motion Graphics",
     icon: Sparkles,
     description: "Animated space exploration sequence.",
   },
   {
-    id: 5,
     title: "Planet Marketing",
     category: "Digital Marketing",
     icon: Globe,
     description: "Digital marketing campaign for space tourism.",
   },
   {
-    id: 6,
     title: "Space Content",
     category: "Content Creation",
     icon: BookOpen,
@@ -136,7 +129,7 @@ export const GalleryPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredItems.map((item, index) => (
             <ScrollAnimation
-              key={item.id}
+              key={index}
               animationClass="anim-flip"
               threshold={0.2}
               delay={200 + index * 100}

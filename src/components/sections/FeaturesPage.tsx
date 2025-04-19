@@ -7,7 +7,6 @@ interface Feature {
   description: string;
   icon: string;
   color: string;
-  delay: number;
 }
 
 const features: Feature[] = [
@@ -17,7 +16,6 @@ const features: Feature[] = [
       "Create stunning, responsive websites that captivate your audience and drive engagement.",
     icon: "🌐",
     color: "bg-purple-600",
-    delay: 200,
   },
   {
     title: "UI/UX Design",
@@ -25,7 +23,6 @@ const features: Feature[] = [
       "Craft intuitive user interfaces and seamless experiences that delight your users.",
     icon: "🎨",
     color: "bg-blue-600",
-    delay: 300,
   },
   {
     title: "Brand Identity",
@@ -33,7 +30,6 @@ const features: Feature[] = [
       "Develop a unique brand identity that stands out and resonates with your target audience.",
     icon: "✨",
     color: "bg-yellow-600",
-    delay: 400,
   },
   {
     title: "Motion Graphics",
@@ -41,7 +37,6 @@ const features: Feature[] = [
       "Bring your brand to life with dynamic animations and engaging motion design.",
     icon: "🎬",
     color: "bg-red-600",
-    delay: 500,
   },
   {
     title: "Digital Marketing",
@@ -49,7 +44,6 @@ const features: Feature[] = [
       "Boost your online presence with strategic digital marketing solutions.",
     icon: "📈",
     color: "bg-green-600",
-    delay: 600,
   },
   {
     title: "Content Creation",
@@ -57,7 +51,6 @@ const features: Feature[] = [
       "Produce compelling content that tells your brand's story and connects with your audience.",
     icon: "📝",
     color: "bg-pink-600",
-    delay: 700,
   },
 ];
 
@@ -100,7 +93,7 @@ export const FeaturesPage = () => {
               key={index}
               animationClass="anim-flip"
               threshold={0.2}
-              delay={feature.delay}
+              delay={200 + index * 100}
             >
               <div
                 className={`relative group cursor-pointer transform transition-all duration-300 hover:scale-105`}

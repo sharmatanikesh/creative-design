@@ -2,27 +2,13 @@ import { useState, useEffect } from "react";
 
 export const Countdown = () => {
   const [time, setTime] = useState({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
+    days: 7,
+    hours: 12,
+    minutes: 45,
+    seconds: 30,
   });
 
-  const [isClient, setIsClient] = useState(false);
-
   useEffect(() => {
-    setTime({
-      days: 7,
-      hours: 12,
-      minutes: 45,
-      seconds: 30,
-    });
-    setIsClient(true);
-  }, []);
-
-  useEffect(() => {
-    if (!isClient) return;
-
     const timer = setInterval(() => {
       setTime((prevTime) => {
         const newTime = { ...prevTime };
@@ -48,7 +34,7 @@ export const Countdown = () => {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [isClient]);
+  }, []);
 
   return (
     <div className="flex justify-center gap-6">

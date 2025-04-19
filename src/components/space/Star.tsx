@@ -2,15 +2,10 @@ import { useRef, useState, useEffect } from "react";
 
 interface StarProps {
   index: number;
-  className?: string;
   parallax?: boolean;
 }
 
-export const Star = ({
-  index,
-  className = "",
-  parallax = false,
-}: StarProps) => {
+export const Star = ({ index, parallax = false }: StarProps) => {
   const size = (index % 3) + 1;
   const top = (index * 7919) % 100;
   const left = (index * 6997) % 100;
@@ -37,7 +32,7 @@ export const Star = ({
   return (
     <div
       ref={starRef}
-      className={`absolute bg-white pixelated ${className}`}
+      className="absolute bg-white pixelated"
       style={{
         top: `${top}%`,
         left: `${left}%`,
